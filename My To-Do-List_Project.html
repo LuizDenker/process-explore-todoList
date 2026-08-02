@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My list</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    @import url('https://googleapis.com');
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Space Grotesk', Helvetica, sans-serif;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        min-height: 100vh;
+        background-image: radial-gradient(#ffffff 1.5px, transparent 1.5px),
+        linear-gradient(45deg, #b33d41 0%, #cca7c0 99%, #ec1fab 100%);
+        background-color: #f0f0f0;
+        background-size: 24px 24px, 100% 100%;
+    }
+
+    .container {
+        background: rgba(226, 223, 223, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(218, 211, 211, 0.3);
+        border-radius: 12px;
+        padding: 40px;
+        width: 500px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        background: linear-gradient(45deg, #ffffff, #9ac2ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+        color: #147de0;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.2rem;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .input-container {
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    input[type='text'] {
+        width: 70%;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    input[type='text']:hover {
+        border-color: #147de0;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    button {
+        padding: 10px 15px;
+        background: #147de0;
+        background: linear-gradient(45deg, #147de0, #147de0)
+        padding-box, linear-gradient(45deg, #9ac2ff, #1d629b) border-box;
+        border: 2px solid transparent;
+        color: #d8e3f3;
+        -webkit-background-clip: padding-box, border-box;
+        background-clip: padding-box, border-box;
+        font-weight: 700;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        
+    }
+
+    button:hover {
+        background: linear-gradient (45deg,#1e6ce0, #1d629b);
+         -webkit-background-clip: border-box;
+        -webkit-text-fill-color: #fff;
+        transform: scale(1.1);
+        color: #fff;
+        box-shadow: 0 0 15px rgba(154, 194, 255, 0.4);
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        display: flex;
+        border-bottom: 1px dashed #ccc;
+        font-size: 1rem;
+        align-items: center;
+        padding: 10px;
+        justify-content: space-between;
+        font-weight: 600;
+    }
+
+    li.completed span {
+        color: #6c757d;
+        text-decoration: line-through;
+    }
+
+    li .accurate-btn {
+        background-color: transparent;
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    li .remove-btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        transition: 0.3s;
+        cursor: pointer;
+        font-size: 15px;
+        background-color: #ff1a1a;
+        color: #fff;
+    }
+
+    li button:hover {
+        color: #ff4d4d;
+    }
+
+    li remove-btn:hover {
+        background-color: #b71c1c;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>Process Explore</h1>
+        <div class="input-container">
+            <input type="text" id="textInput" placeholder="Whats needs to be done?">
+            <button onclick="addTask()">Add task</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+</body>
+<script>
+    const input = document.getElementById('textInput');
+    const taskLink = document.getElementById('taskList');
+
+    function addTask() {
+        const textTask = input.value.trim();
+        if (textTask === '') {
+            alert('Please enter your task my little friend!');
+            return;
+        }
+        const li = document.createElement('li');
+
+        const btnAccurate = document.createElement('button');
+        btnAccurate.textContent = '✔️';
+        btnAccurate.style.fontSize = '1.5rem';
+        btnAccurate.classList.add('accurate-btn');
+        btnAccurate.addEventListener('click', (e) => {
+            li.classList.toggle('completed');
+            btnAccurate.style.border = '1px solid #0056b3';
+            btnAccurate.style.borderRadius = '8px';
+            e.stopPropagation();
+        });
+        li.appendChild(btnAccurate);
+
+        const span = document.createElement('span');
+        span.textContent = textTask;
+        span.style.color = '#fff';
+        li.appendChild(span);
+
+
+        const removeBtn = document.createElement('remove-btn');
+        removeBtn.textContent = 'Remove';
+        removeBtn.classList.add('remove-btn');
+        removeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            taskLink.removeChild(li);
+        });
+        li.appendChild(removeBtn);
+
+        taskLink.appendChild(li);
+        input.value = '';
+    }
+</script>
+
+</html>
